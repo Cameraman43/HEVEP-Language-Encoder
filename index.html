@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hevep-Speak Translator</title>
+  <style>
+    body { font-family: monospace; background: #111; color: #0f0; padding: 20px; }
+    textarea { width: 100%; font-family: monospace; }
+    pre { background: #000; padding: 10px; }
+    button { font-size: 16px; padding: 5px 10px; }
+  </style>
+</head>
+<body>
+<h1>Hevep-Speak Translator</h1>
+<textarea id="input" rows="5" placeholder="Type normal text here..."></textarea><br>
+<button onclick="translate()">Translate</button>
+<pre id="output"></pre>
+
+<script>
+function translate() {
+  let text = document.getElementById("input").value;
+  let words = text.split(/\s+/);
+
+  // rules
+  let mutated = words.map(word => {
+    // drop articles/auxiliaries
+    if (["the","a","an","is","are","do","does","will","of","to"].includes(word.toLowerCase())) return "";
+
+    // add random -ing to verbs
+    if (Math.random() < 0.4) word += "ing";
+
+    return word;
+  }).filter(w => w!="");
+
+  // join words back
+  let sentence = mutated.join(" ");
+
+  // add exclamations randomly
+  if (Math.random() < 0.3) sentence += " wow!";
+  if (Math.random() < 0.2) sentence = "hello " + sentence;
+
+  // random repetition (like Hevep)
+  if (Math.random() < 0.2) sentence += "\n" + sentence;
+
+  document.getElementById("output").innerText = sentence;
+}
+</script>
+</body>
+</html>
